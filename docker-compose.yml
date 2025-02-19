@@ -1,0 +1,35 @@
+version: '3.9'
+services:
+  patient_db:
+    image: mongo:8.0.4
+    container_name: patient_db
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongo
+      MONGO_INITDB_ROOT_PASSWORD: mongo
+    ports:
+      - "27017:27017"
+    expose:
+      - "27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - patient_network
+
+  patient_api:
+    build: .
+    restart: always
+    container_name: patient_api
+    ports:
+      - "8080:8080"
+    depends_on:
+      - patient_db
+    networks:
+      - patient_network
+
+networks:
+  patient_network:
+    driver: bridge
+
+volumes:
+  mongo_data:
