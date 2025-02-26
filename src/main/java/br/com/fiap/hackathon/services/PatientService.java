@@ -29,8 +29,8 @@ public class PatientService {
             patient.setUserName(userName);
             patient.setPatientRecords(new ArrayList<>());
         }
-        patient.getPatientRecords().add(newRecord);
 
+        patient.getPatientRecords().add(newRecord);
         return patientRepository.save(patient);
     }
 
