@@ -1,5 +1,6 @@
 package br.com.fiap.hackathon.models;
 
+import java.time.LocalDate;
 import java.util.Map;
 
 import lombok.AllArgsConstructor;
@@ -12,6 +13,6 @@ import lombok.Setter;
 @Setter
 @Getter
 public class PatientRecord {
-    private java.util.Date date;
+    private LocalDate date;
     private Map<String, Object> content;
 }

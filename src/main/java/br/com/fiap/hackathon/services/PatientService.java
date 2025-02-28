@@ -1,36 +1,38 @@
 package br.com.fiap.hackathon.services;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.fiap.hackathon.configuration.security.LoggedUser;
 import br.com.fiap.hackathon.models.Patient;
 import br.com.fiap.hackathon.models.PatientRecord;
 import br.com.fiap.hackathon.repositories.PatientRepository;
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class PatientService {
-    @Autowired
-    public PatientRepository patientRepository;
 
-    public Patient addRecortToPatient(String userName, PatientRecord newRecord){
-        Optional<Patient> existingPatient = patientRepository.findAll()
-                .stream()
-                .filter(p -> p.getUserName().equals(userName))
-                .findFirst();
+    private final PatientRepository patientRepository;
 
-        Patient patient;
-        if (existingPatient.isPresent()) {
-            patient = existingPatient.get();
-        } else {
-            patient = new Patient();
-            patient.setUserName(userName);
-            patient.setPatientRecords(new ArrayList<>());
-        }
+    public Patient addRecordToPatient(final PatientRecord newRecord) {
+        final var identifier = LoggedUser.get().getUserIdentifier();
 
-        patient.getPatientRecords().add(newRecord);
+        final var patient = this.patientRepository
+                .findByUserIdentifier(identifier)
+                .orElseGet(() -> {
+                    final var newPatient = new Patient();
+                    newPatient.setPatientRecords(new ArrayList<>());
+                    return newPatient;
+                });
+
+        patient.setUserIdentifier(identifier);
+        patient.setUserName(LoggedUser.get().getName());
+        patient.setPatientRecords(updatePatientRecords(patient.getPatientRecords()));
+
         return patientRepository.save(patient);
     }
 
@@ -39,6 +41,14 @@ public class PatientService {
                 .stream()
                 .filter(p -> p.getUserName().equals(userName))
                 .findFirst();
+    }
+
+    private List<PatientRecord> updatePatientRecords(List<PatientRecord> patientRecords) {
+        List<PatientRecord> newPatientRecords = new ArrayList<>();
+        for (PatientRecord patientRecord : patientRecords) {
+            newPatientRecords.add(patientRecord);
+        }
+        return patientRecords;
     }
 
 }

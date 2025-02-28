@@ -5,18 +5,17 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Document(collection = "patients")
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
 public class Patient {
     @Id
     private String id;
     private String userName;
+    private String userIdentifier;
     private List<PatientRecord> patientRecords;
 
 }

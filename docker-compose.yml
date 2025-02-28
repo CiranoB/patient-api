@@ -1,4 +1,3 @@
-version: '3.9'
 services:
   patient_db:
     image: mongo:8.0.4
@@ -20,8 +19,11 @@ services:
     build: .
     restart: always
     container_name: patient_api
+    environment:
+      PORT_APP: 9292
+      JWT_SECRET: 123456789
     ports:
-      - "8080:8080"
+      - "9292:9292"
     depends_on:
       - patient_db
     networks:

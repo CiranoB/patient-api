@@ -28,12 +28,12 @@ class DumpServiceTest {
     private DumpService dumpService;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void testGetAllCollections() {
+    void testGetAllCollections() {
         Set<String> mockedCollections = new HashSet<>();
         mockedCollections.add("patients");
         mockedCollections.add("appointments");
@@ -47,7 +47,7 @@ class DumpServiceTest {
     }
 
     @Test
-    public void testGetAllPatients() {
+    void testGetAllPatients() {
         Patient patient = new Patient();
         patient.setId("123");
         patient.setUserName("John Doe");

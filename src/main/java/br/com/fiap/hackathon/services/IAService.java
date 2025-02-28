@@ -11,7 +11,7 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 @Service
-public class GPTService {
+public class IAService {
 
     public String run(String systemContent, String userContent){
         String apiKey = System.getenv("GPT_API_KEY");

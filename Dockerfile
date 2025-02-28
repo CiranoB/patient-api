@@ -14,6 +14,6 @@ WORKDIR /app
 
 COPY --from=build /app/target/hackathon-0.0.1-SNAPSHOT.jar /app/app.jar
 
-EXPOSE 8080
+EXPOSE 9292
 
 CMD ["java", "-jar", "app.jar"]
